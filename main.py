@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import urllib
+import urllib.request
 import re
 import xml.etree.ElementTree
 
 
-def localize_var(var):
-    return unicode(var, 'utf8').encode('cp866', 'ignore')
-
-
 class Cache:
-    cache_types_lookup = {u'Традиционный': 'TR',
-                          u'Виртуальный': 'VI',
-                          u'Пошаговый традиционный': 'MS',
-                          u'Пошаговый виртуальный': 'MV'}
+    cache_types_lookup = {'Традиционный': 'TR',
+                          'Виртуальный': 'VI',
+                          'Пошаговый традиционный': 'MS',
+                          'Пошаговый виртуальный': 'MV'}
 
     def __init__(self, xml_data):
         self.cache_type = self.cache_types_lookup[xml_data.findall('type')[0].text]
@@ -29,34 +25,34 @@ class Cache:
 
 
 def get_cache_info(cache_id):
-    page_src = urllib.urlopen('http://www.geocaching.su/site/api.php?rtype=2&cid=%s&istr=ems' % cache_id).read()
+    page_src = urllib.request.urlopen('http://www.geocaching.su/site/api.php?rtype=2&cid=%s&istr=ems' % cache_id).read()
     root = xml.etree.ElementTree.fromstring(page_src)
     return Cache(root)
 
 
 def get_user_finds(user_id, detailed=False):
-    page_src = urllib.urlopen("http://www.geocaching.su/site/popup/userstat.php?s=2&uid=%s" % user_id).read()
+    page_src = str(urllib.request.urlopen("http://www.geocaching.su/site/popup/userstat.php?s=2&uid=%s" % user_id).read())
     return extract_caches_from_webpage(page_src, detailed)
 
 
 def get_user_creations(user_id, detailed=False):
-    page_src = urllib.urlopen("http://www.geocaching.su/site/popup/userstat.php?s=1&uid=%s" % user_id).read()
+    page_src = str(urllib.request.urlopen("http://www.geocaching.su/site/popup/userstat.php?s=1&uid=%s" % user_id).read())
     return extract_caches_from_webpage(page_src, detailed)
 
 
 def extract_caches_from_webpage(page_src, detailed=False):
-    cache_re = re.compile(u'(\w\w).{0,1}\.png.*?<a href=.*?pn=101&cid=(\d+)', flags=re.DOTALL | re.UNICODE)
+    cache_re = re.compile('(\w\w).{0,1}\.png.*?<a href=.*?pn=101&cid=(\d+)', flags=re.DOTALL | re.UNICODE)
     caches = []
     n_all_finds = len(cache_re.findall(page_src))
     for i, cache_result in enumerate(cache_re.findall(page_src)):
         cache_type, cache_id = cache_result
         if i % 100 == 0:
-            print '%s\\%s' % (i, n_all_finds)
+            print ('%s\\%s' % (i, n_all_finds))
         if detailed:
             try:
                 current_cache = get_cache_info(cache_id)
             except:
-                print cache_id
+                print (cache_id)
                 pass
         else:
             current_cache = Cache(cache_id, cache_type)
@@ -188,4 +184,4 @@ if __name__ == '__main__':
             max_cache_to_number_tables.append(cache_to_number_table)
             max_cards.append(i)
             max_tables.append(current_table)
-    print 'Best score: %s with cards %s' % (max_score, str(max_cards))
+    print( 'Best score: %s with cards %s' % (max_score, str(max_cards)))
