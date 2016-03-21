@@ -167,9 +167,6 @@ if __name__ == '__main__':
         list(map(str, [3, 12, 15, 22, 27, 30, 42, 49, 53, 58, 67, 76, 77, 87, 88])),
     ]
 
-    # lega4 68451
-    # family 57872
-    # disa 10940
     user = 1403
     res = get_user_finds(user) + get_user_creations(user)
 
