@@ -31,12 +31,14 @@ def get_cache_info(cache_id):
 
 
 def get_user_finds(user_id, detailed=False):
-    page_src = str(urllib.request.urlopen("http://www.geocaching.su/site/popup/userstat.php?s=2&uid=%s" % user_id).read())
+    page_src = str(
+        urllib.request.urlopen("http://www.geocaching.su/site/popup/userstat.php?s=2&uid=%s" % user_id).read())
     return extract_caches_from_webpage(page_src, detailed)
 
 
 def get_user_creations(user_id, detailed=False):
-    page_src = str(urllib.request.urlopen("http://www.geocaching.su/site/popup/userstat.php?s=1&uid=%s" % user_id).read())
+    page_src = str(
+        urllib.request.urlopen("http://www.geocaching.su/site/popup/userstat.php?s=1&uid=%s" % user_id).read())
     return extract_caches_from_webpage(page_src, detailed)
 
 
@@ -47,12 +49,12 @@ def extract_caches_from_webpage(page_src, detailed=False):
     for i, cache_result in enumerate(cache_re.findall(page_src)):
         cache_type, cache_id = cache_result
         if i % 100 == 0:
-            print ('%s\\%s' % (i, n_all_finds))
+            print('%s\\%s' % (i, n_all_finds))
         if detailed:
             try:
                 current_cache = get_cache_info(cache_id)
             except:
-                print (cache_id)
+                print(cache_id)
                 pass
         else:
             current_cache = Cache(cache_id, cache_type)
@@ -184,4 +186,4 @@ if __name__ == '__main__':
             max_cache_to_number_tables.append(cache_to_number_table)
             max_cards.append(i)
             max_tables.append(current_table)
-    print( 'Best score: %s with cards %s' % (max_score, str(max_cards)))
+    print('Best score: %s with cards %s' % (max_score, str(max_cards)))
