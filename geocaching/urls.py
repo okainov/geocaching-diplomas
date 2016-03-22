@@ -18,5 +18,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^geocaching/', include('diplomas.urls')),
+    url(r'^', include('diplomas.urls')),
 ]

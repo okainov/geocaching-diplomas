@@ -1,3 +1,7 @@
+{% load staticfiles %}
+
+<img src="{% static 'diplomas/logo.png' %} ">
+
 <h1>Geocaching.SU "Geoloto" diploma</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -21,6 +25,8 @@ Winning loto card(s):<br>
 {% endfor %}
 </ul>
 </p>
+{% else %}
+Enter your User ID to check Geoloto diploma status
 {% endif %}
 
 <form action="{% url 'diplomas:geoloto' %}" method="post">
