@@ -136,7 +136,6 @@ def get_cache_to_number_table(numbers_card, caches_list):
             result[cache].append(number)
     return result
 
-
 def get_user_result(user_id):
     cards = [
         list(map(str, [6, 11, 20, 28, 32, 34, 45, 47, 51, 53, 63, 70, 77, 86, 89])),
@@ -188,3 +187,7 @@ def get_user_result(user_id):
     print('Best score: %s with cards %s' % (max_score, str(max_cards)))
 
     return max_score, zip(max_cards, max_tables), len(res)
+
+
+if __name__ == '__main__':
+    pass

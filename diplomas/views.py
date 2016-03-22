@@ -1,4 +1,4 @@
-from diplomas.main import get_user_result
+from diplomas.gc_diplomas import get_user_result
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import loader
