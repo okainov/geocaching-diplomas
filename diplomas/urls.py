@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from . import views
 
+app_name = 'diplomas'
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^geoloto$', views.geoloto, name='geoloto'),
 ]
