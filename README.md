@@ -1,5 +1,7 @@
 # geocaching-diplomas
 
-For now it's just a Python script developed to ease getting information about progress
-in Geocaching.SU diploma program Geoloto.
-In the future, I want to create Django app and put it here, also to add new diplomas support
+It's a Django application developed for parsing
+Geocaching.su website and check can user apply for
+some diplomas programs or not.
+
+Supported diplomas: only Geoloto so far.
