@@ -1,0 +1,45 @@
+<head>
+  <title>Дипломы Geocaching.su</title>
+</head>
+
+{% load staticfiles %}
+
+<img src="{% static 'diplomas/logo.png' %} ">
+
+<h1>Geocaching.SU "Azbuka" diploma</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+
+{% if status %}
+To get this diploma, you need to have score 33.
+<p>User {{username}} has score <strong>{{ score }}</strong>: <br>
+
+</p>
+<p>
+{% for letter, value in azbuka_dict %}
+    &nbsp; &nbsp; &nbsp;  {{letter.upper}}: <a href="{{value.get_link}}">{{value}}</a> <br>
+{% endfor %}
+</p>
+
+{% if letters_left %}
+You need caches for the following letters:<br>
+
+<ul>
+{% for letter in letters_left %}
+
+     <li>{{letter.upper}}</li>
+{% endfor %}
+    </ul>
+{% endif %}
+
+{% else %}
+Enter your User ID to check Azbuka diploma status
+{% endif %}
+
+<form action="{% url 'diplomas:azbuka' %}" method="post">
+{% csrf_token %}
+    <label for="userq">User ID</label>
+    <input type="text" size="40" name="user" id="userq" value="{{user_id}}">
+<input type="submit" value="Submit" />
+</form>

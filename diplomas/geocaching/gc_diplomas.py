@@ -88,7 +88,7 @@ def get_cache_to_number_table_with_simple_ones_heuristic(cache_type, cache_to_nu
     return resulted_dict
 
 
-def get_user_result(user_id):
+def check_geoloto_for_user(user_id):
     cards = get_geoloto_cards()
 
     res = gc_api.get_user_finds(user_id) + gc_api.get_user_creations(user_id)
@@ -144,7 +144,50 @@ def get_geoloto_cards():
     return cards
 
 
+def have_letters(name, letters_to_have):
+    result_letters = []
+    for letter in letters_to_have:
+        if letter in name:
+            result_letters.append(letter)
+    return result_letters
+
+
+def check_azbuka_for_user(user_id):
+    created_caches = gc_api.get_user_creations(user_id)
+    res = gc_api.get_user_finds(user_id) + created_caches
+    letters_to_start_with = 'абвгдежзиклмнопрстуфхцчшщэюя'
+    letters_to_have = 'йыьё'
+    special_letter = 'ъ'
+    all_letters = sorted(list(letters_to_start_with + letters_to_have + special_letter))
+    dic = {}
+    for cache in sorted(res, key=lambda x: x.name):
+        cache_name_to_check = cache.name.lower()
+        was_cache_added = False
+        if not was_cache_added:
+            letters_inside = have_letters(cache_name_to_check, letters_to_have)
+            for letter in letters_inside:
+                if letter not in dic:
+                    dic[letter] = cache
+                    was_cache_added = True
+                    all_letters.remove(letter)
+                    break
+        if not was_cache_added:
+            first_letter = cache_name_to_check[0]
+            if first_letter not in dic and first_letter in letters_to_start_with:
+                dic[first_letter] = cache
+                all_letters.remove(first_letter)
+                was_cache_added = True
+
+        if not was_cache_added:
+            if special_letter not in dic:
+                if special_letter in cache_name_to_check or cache in created_caches:
+                    dic[special_letter] = cache
+                    all_letters.remove(special_letter)
+                    was_cache_added = True
+    return dic, all_letters
+
+
 if __name__ == '__main__':
-    qqq = gc_api.get_user_nickname(123)
+    qqq = check_azbuka_for_user(4786)
     print(qqq)
     pass

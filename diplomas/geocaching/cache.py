@@ -22,4 +22,7 @@ class Cache:
         self.creation_date = creation_date
 
     def __repr__(self):
-        return '%s/%s' % (self.cache_type, self.cache_id)
+        return '%s/%s: %s' % (self.cache_type, self.cache_id, self.name)
+
+    def get_link(self):
+        return 'http://www.geocaching.su/?pn=101&cid=%s' % self.cache_id
