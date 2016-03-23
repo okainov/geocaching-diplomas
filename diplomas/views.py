@@ -1,4 +1,5 @@
-from diplomas.gc_diplomas import get_user_result, get_user_nickname
+from diplomas.geocaching.gc_diplomas import get_user_result
+from diplomas.geocaching.api import get_user_nickname
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import loader

@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+
 from unittest import TestCase
-from diplomas.gc_diplomas import get_cache_to_number_table_with_simple_singleton_two, \
+
+from diplomas.geocaching.gc_diplomas import get_cache_to_number_table_with_simple_singleton_two, \
     get_cache_to_number_table_with_two_equal_pairs
 
 
