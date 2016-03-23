@@ -24,22 +24,38 @@ class Cache:
         return '%s/%s' % (self.cache_type, self.cache_id)
 
 
+def get_page_by_url(url):
+    r = urllib.request.urlopen(url)
+    bytes_str = r.read()
+    return bytes_str.decode('cp1251')
+
 def get_cache_info(cache_id):
-    page_src = urllib.request.urlopen('http://www.geocaching.su/site/api.php?rtype=2&cid=%s&istr=ems' % cache_id).read()
+    page_src = get_page_by_url('http://www.geocaching.su/site/api.php?rtype=2&cid=%s&istr=ems' % cache_id).read()
     root = xml.etree.ElementTree.fromstring(page_src)
     return Cache(root)
 
 
 def get_user_finds(user_id, detailed=False):
-    page_src = str(
-        urllib.request.urlopen("http://www.geocaching.su/site/popup/userstat.php?s=2&uid=%s" % user_id).read())
+    page_src = get_page_by_url("http://www.geocaching.su/site/popup/userstat.php?s=2&uid=%s" % user_id)
     return extract_caches_from_webpage(page_src, detailed)
 
 
 def get_user_creations(user_id, detailed=False):
-    page_src = str(
-        urllib.request.urlopen("http://www.geocaching.su/site/popup/userstat.php?s=1&uid=%s" % user_id).read())
+    page_src = get_page_by_url("http://www.geocaching.su/site/popup/userstat.php?s=1&uid=%s" % user_id)
     return extract_caches_from_webpage(page_src, detailed)
+
+
+def get_user_nickname(user_id):
+    page_src = get_page_by_url("http://www.geocaching.su/site/popup/userstat.php?s=1&uid=%s" % user_id)
+    return extract_nickname_from_webpage(page_src)
+
+
+def extract_nickname_from_webpage(page_src):
+    cache_re = re.compile('<h1 class=hdr>(.+?)</h1>', flags=re.DOTALL | re.UNICODE)
+    try:
+        return cache_re.findall(page_src)[0]
+    except:
+        return None
 
 
 def extract_caches_from_webpage(page_src, detailed=False):
@@ -245,4 +261,6 @@ def get_user_result(user_id):
 
 
 if __name__ == '__main__':
+    qqq = get_user_nickname(20222)
+    print(qqq)
     pass

@@ -1,4 +1,4 @@
-from diplomas.gc_diplomas import get_user_result
+from diplomas.gc_diplomas import get_user_result, get_user_nickname
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import loader
@@ -13,7 +13,7 @@ def geoloto(request):
 
     template = loader.get_template('diplomas/geoloto.html')
     context = {'status': 'ok', 'score': max_score, 'cards_and_tables': cards_and_tables, 'n_caches': n_caches,
-               'user_id': user_id}
+               'user_id': user_id, 'username': get_user_nickname(user_id)}
     return HttpResponse(template.render(context, request))
 
 
