@@ -17,7 +17,7 @@ Winning loto card(s):<br>
 <ul>
 {% for item in cards_and_tables %}
      <li><strong>{{ item.0 }}</strong><br> </li>
-    {% for number,cache in item.1.items %}{{number}}:
+    {% for number,cache in item.1 %}{{number}}:
         {% for cache_type,cache_number in cache.items %}
         <a href="http://www.geocaching.su/?pn=101&cid={{cache_number}}">{{cache_type}}/{{cache_number}}</a>,
         {% endfor %}<br>

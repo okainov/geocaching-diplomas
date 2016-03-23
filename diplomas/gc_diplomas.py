@@ -80,19 +80,73 @@ def check_geoloto_dp(caches_list, numbers_card):
         caches_to_process = get_caches_by_type(caches_list, cache_type)
         cache_to_number_table = get_cache_to_number_table(numbers_card, caches_to_process)
         get_cache_to_number_table_with_simple_ones_heuristic(cache_type, cache_to_number_table, dic)
-        get_cache_to_number_table_with_simple_sigleton_two(cache_type, cache_to_number_table, dic)
+        get_cache_to_number_table_with_simple_singleton_two(cache_type, cache_to_number_table, dic)
+        get_cache_to_number_table_with_two_equal_pairs(cache_type, cache_to_number_table, dic)
     return dic, cache_to_number_table
 
 
-def get_cache_to_number_table_with_simple_sigleton_two(cache_type, cache_to_number_table, resulted_dict):
-    if len(cache_to_number_table) == 1:
-        cache, numbers = cache_to_number_table.popitem()
-        assert len(numbers) > 1
-        if len(numbers) == 2:
-            number = numbers[0]
-            if number not in resulted_dict:
-                resulted_dict[number] = {}
-            resulted_dict[number][cache_type] = cache
+def get_cache_to_number_table_with_simple_singleton_two(cache_type, cache_to_number_table, resulted_dict):
+    # Check if there is only one cache in table an it could be paired
+    # with two numbers -> then select first number and pair
+    # Works with {'11538': ['11', '53']} as well as  with
+    # {'6576': ['57', '65'], '11538': ['11', '53']}
+
+    restart_needed = True
+    while restart_needed and cache_to_number_table:
+        map_numbers_to_cache = get_numbers_to_cache_mapping(cache_to_number_table)
+        restart_needed = False
+        for number in sorted(map_numbers_to_cache):
+            if len(map_numbers_to_cache[number]) == 1:
+                cache = map_numbers_to_cache[number][0]
+                if number not in resulted_dict:
+                    resulted_dict[number] = {}
+                resulted_dict[number][cache_type] = cache
+
+                del cache_to_number_table[cache]
+                restart_needed = True
+                break
+    return resulted_dict
+
+
+def get_cache_to_number_table_with_two_equal_pairs(cache_type, cache_to_number_table, resulted_dict):
+    # {'1212': ['1', '2'], '2121': ['1', '2']}
+
+    restart_needed = True
+    while restart_needed and cache_to_number_table:
+        map_numbers_to_cache = get_numbers_to_cache_mapping(cache_to_number_table)
+        restart_needed = False
+        for number in sorted(map_numbers_to_cache):
+            if len(map_numbers_to_cache[number]) == 2:
+                map_numbers_to_cache[number] = sorted(map_numbers_to_cache[number])
+                cache_a = map_numbers_to_cache[number][0]
+                cache_b = map_numbers_to_cache[number][1]
+                caches_numbers = set(cache_to_number_table[cache_a] + cache_to_number_table[cache_b])
+                if len(caches_numbers) == 2:
+                    caches_numbers.remove(number)
+                    number_b = list(caches_numbers)[0]
+
+                    if number not in resulted_dict:
+                        resulted_dict[number] = {}
+                    if number_b not in resulted_dict:
+                        resulted_dict[number_b] = {}
+                    resulted_dict[number][cache_type] = cache_a
+                    resulted_dict[number_b][cache_type] = cache_b
+
+                    del cache_to_number_table[cache_a]
+                    del cache_to_number_table[cache_b]
+                    restart_needed = True
+                    break
+    return resulted_dict
+
+
+def get_numbers_to_cache_mapping(cache_to_number_table):
+    map_numbers_to_cache = {}
+    for cache in cache_to_number_table:
+        for number in cache_to_number_table[cache]:
+            if number not in map_numbers_to_cache:
+                map_numbers_to_cache[number] = []
+            map_numbers_to_cache[number].append(cache)
+    return map_numbers_to_cache
 
 
 def get_cache_to_number_table_with_simple_ones_heuristic(cache_type, cache_to_number_table, resulted_dict):
@@ -136,6 +190,7 @@ def get_cache_to_number_table(numbers_card, caches_list):
             result[cache].append(number)
     return result
 
+
 def get_user_result(user_id):
     cards = [
         list(map(str, [6, 11, 20, 28, 32, 34, 45, 47, 51, 53, 63, 70, 77, 86, 89])),
@@ -177,13 +232,13 @@ def get_user_result(user_id):
         current_score = get_card_score(current_table)
         if current_score > max_score:
             max_score = current_score
-            max_tables = [current_table]
+            max_tables = [sorted(current_table.items(), key=lambda x: int(x[0]))]
             max_cards = [i]
             max_cache_to_number_tables = [cache_to_number_table]
         elif current_score == max_score:
             max_cache_to_number_tables.append(cache_to_number_table)
             max_cards.append(i)
-            max_tables.append(current_table)
+            max_tables.append(sorted(current_table.items(), key=lambda x: int(x[0])))
     print('Best score: %s with cards %s' % (max_score, str(max_cards)))
 
     return max_score, zip(max_cards, max_tables), len(res)
