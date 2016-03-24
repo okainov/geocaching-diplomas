@@ -67,9 +67,12 @@ def extract_caches_from_webpage(page_src):
         if 'рейтинг' in region:
             region = region[:-10]
 
-        if cache_type.lower() in ['lu', 're']:
-            temp_cache = get_cache_details(cache_id)
-            cache_type = temp_cache.cache_type
+        # if cache_type.lower() in ['lu', 're']:
+        #     try:
+        #         temp_cache = get_cache_details(cache_id)
+        #         cache_type = temp_cache.cache_type
+        #     except KeyError:
+        #         pass
 
         if i % 100 == 0:
             print('%s\\%s' % (i, n_all_finds))
