@@ -10,12 +10,12 @@
 
 
 {% if status %}
-<p>User {{username}} can get <strong>{{ n_diplomas_to_get }}</strong> diplomas: <br>
+<p>User {{username}} can get <strong>{{ n_diplomas_to_get }}</strong>/79 diplomas: <br>
 
 </p>
 <p>
 {% for region, data in result_dict %}
-    {{region}}: {{data.total_score}}/{{data.max_score}}<br>
+    <strong>{{region}}</strong>: {{data.total_score}}/{{data.max_score}}<br>
 
     &nbsp; &nbsp; - {{region}} ({{data.region_score}}/{{data.region_max_score}}):
         {% for cache in data.caches %}
@@ -24,7 +24,13 @@
     <br>
 
         {% for sosed, cache in data.neightbors %}
-            &nbsp; &nbsp; - {{sosed}}: <a href="{{cache.get_link}}">{{cache}}</a><br>
+            &nbsp; &nbsp; - {{sosed}}:
+                {% if cache %}
+                    <a href="{{cache.get_link}}">{{cache}}</a>
+                {% else %}
+                    <font color="red">No cache</font>
+                {% endif %}
+            <br>
         {% endfor %}
 
 

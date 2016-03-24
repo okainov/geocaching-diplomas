@@ -17,6 +17,7 @@ def geoloto(request):
                'user_id': user_id, 'username': get_user_nickname(user_id)}
     return HttpResponse(template.render(context, request))
 
+
 def azbuka(request):
     try:
         user_id = request.POST['user']
@@ -44,10 +45,12 @@ def regions(request):
 
     template = loader.get_template('diplomas/regions.html')
     context = {'status': 'ok',
-               'result_dict': sorted(result_dict.items(), key=lambda x: -x[1]['total_score'] - 1000* x[1]['can_get']),
+               'result_dict': sorted(result_dict.items(),
+                                     key=lambda x: x[1]['max_score'] - x[1]['total_score'] - 1000 * x[1]['can_get']),
                'n_diplomas_to_get': n_diplomas_to_get,
                'user_id': user_id, 'username': get_user_nickname(user_id)}
     return HttpResponse(template.render(context, request))
+
 
 def index(request):
     template = loader.get_template('diplomas/index.html')

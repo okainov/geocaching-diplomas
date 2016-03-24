@@ -72,8 +72,8 @@ def extract_caches_from_webpage(page_src):
         elif 'Саха' in region and 'Сахалин' not in region:
             region = 'Россия, Саха (Якутия) респ.'
 
-        if i % 100 == 0:
-            print('%s\\%s' % (i, n_all_finds))
+        # if i % 100 == 0:
+        #     print('%s\\%s' % (i, n_all_finds))
         current_cache = Cache.init_from_fields(cache_id, cache_type, cache_name, cache_creator, creation_date, region)
         caches.append(current_cache)
     return caches
