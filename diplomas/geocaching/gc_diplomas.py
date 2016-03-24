@@ -161,7 +161,7 @@ def check_azbuka_for_user(user_id):
     all_letters = sorted(list(letters_to_start_with + letters_to_have + special_letter))
     dic = {}
     for cache in sorted(res, key=lambda x: x.name):
-        if cache.type.lower() not in ['ms', 'tr', 'mv', 'vi', 'lu', 'ar', 're']:
+        if cache.cache_type.lower() not in ['ms', 'tr', 'mv', 'vi', 'lu', 'ar', 're']:
             continue
         cache_name_to_check = cache.name.lower()
         if cache_name_to_check.startswith('"'):
