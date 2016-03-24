@@ -77,20 +77,6 @@ def check_azbuka_for_user(user_id):
 
 def check_regions_for_user(user_id):
     res = gc_api.get_user_finds(user_id) + gc_api.get_user_creations(user_id)
-    # gc_api.get_user_finds(user_id) + gc_api.get_user_creations(user_id) + \
-    # gc_api.get_user_finds(20222) + gc_api.get_user_creations(20222) +  \
-    # gc_api.get_user_finds(18550) + gc_api.get_user_creations(18550) + \
-    # gc_api.get_user_finds(36762) + gc_api.get_user_creations(36762) + \
-    # gc_api.get_user_finds(35931) + gc_api.get_user_creations(35931) + \
-    # gc_api.get_user_finds(21766) + gc_api.get_user_creations(21766) + \
-    # gc_api.get_user_finds(68451) + gc_api.get_user_creations(68451) + \
-    # gc_api.get_user_finds(10940) + gc_api.get_user_creations(10940) + \
-    # gc_api.get_user_finds(978) + gc_api.get_user_creations(978) + \
-    # gc_api.get_user_finds(72375) + gc_api.get_user_creations(72375) + \
-    # gc_api.get_user_finds(7909) + gc_api.get_user_creations(7909) + \
-    # gc_api.get_user_finds(20074) + gc_api.get_user_creations(20074) + \
-    # gc_api.get_user_finds(14658) + gc_api.get_user_creations(14658) + \
-    # gc_api.get_user_finds(25156) + gc_api.get_user_creations(25156)
     regions_to_caches_table = {}
     for cache in res:
         if 'Россия' not in cache.region:
@@ -128,7 +114,6 @@ def check_regions_for_user(user_id):
             result_table[region]['max_score'] = max_score
             result_table[region]['can_get'] = max_score == score
 
-    a = 2
     return result_table
 
 
