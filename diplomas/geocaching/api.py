@@ -44,8 +44,8 @@ def extract_nickname_from_webpage(page_src):
 
 
 def extract_caches_from_webpage(page_src):
-    re_for_created_cache = re.compile('(?P<type>\w\w).{0,1}\.png.*?<a href=.*?pn=101&cid=(?P<id>\d+).*?blank>(?P<name>.*?)</a>.*?(?P<cdate>\d\d.\d\d.\d\d\d\d), (?P<region>.*?)[\d<]', flags=re.DOTALL | re.UNICODE)
-    re_for_found_cache = re.compile('<tr><td>.*?(?P<type>\w\w).{0,1}\.png.*?<a href=.*?pn=101&cid=(?P<id>\d+).*?blank>(?P<name>.*?)</a>.*?<b>(?P<creator>.*?)</b>.*?\((?P<cdate>\d\d.\d\d.\d\d\d\d), (?P<region>.*?)\)', flags=re.DOTALL | re.UNICODE)
+    re_for_created_cache = re.compile('alt=.(?P<type>\w\w).*?<a href=.*?pn=101&cid=(?P<id>\d+).*?blank>(?P<name>.*?)</a>.*?(?P<cdate>\d\d.\d\d.\d\d\d\d), (?P<region>.*?)[\d<]', flags=re.DOTALL | re.UNICODE)
+    re_for_found_cache = re.compile('<tr><td>.*?/ctypes/icons/.*?alt=.(?P<type>\w\w).*?<a href=.*?pn=101&cid=(?P<id>\d+).*?blank>(?P<name>.*?)</a>.*?<b>(?P<creator>.*?)</b>.*?\((?P<cdate>\d\d.\d\d.\d\d\d\d), (?P<region>.*?)\)', flags=re.DOTALL | re.UNICODE)
     if 'Созданные тайники' in page_src:
         cache_re = re_for_created_cache
     else:
@@ -66,13 +66,6 @@ def extract_caches_from_webpage(page_src):
         region = re_match.group('region')
         if 'рейтинг' in region:
             region = region[:-10]
-
-        # if cache_type.lower() in ['lu', 're']:
-        #     try:
-        #         temp_cache = get_cache_details(cache_id)
-        #         cache_type = temp_cache.cache_type
-        #     except KeyError:
-        #         pass
 
         if i % 100 == 0:
             print('%s\\%s' % (i, n_all_finds))
