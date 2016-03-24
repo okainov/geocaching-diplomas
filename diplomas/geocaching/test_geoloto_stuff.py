@@ -2,7 +2,7 @@
 
 from unittest import TestCase
 
-from diplomas.geocaching.gc_diplomas import get_cache_to_number_table_with_simple_singleton_two, \
+from diplomas.geocaching.geoloto_stuff import get_cache_to_number_table_with_simple_singleton_two, \
     get_cache_to_number_table_with_two_equal_pairs
 
 

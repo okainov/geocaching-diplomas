@@ -45,3 +45,11 @@ def get_cache_to_number_table(numbers_card, caches_list):
                 result[cache] = []
             result[cache].append(number)
     return result
+
+
+def have_letters(name, letters_to_have):
+    result_letters = []
+    for letter in letters_to_have:
+        if letter in name:
+            result_letters.append(letter)
+    return result_letters
