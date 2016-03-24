@@ -38,5 +38,8 @@ class Cache:
     def __repr__(self):
         return '%s/%s: %s' % (self.cache_type, self.cache_id, self.name)
 
+    def short_repr(self):
+        return '%s/%s' % (self.cache_type, self.cache_id)
+
     def get_link(self):
         return 'http://www.geocaching.su/?pn=101&cid=%s' % self.cache_id

@@ -1,0 +1,44 @@
+<head>
+  <title>Дипломы Geocaching.su</title>
+</head>
+
+{% load staticfiles %}
+
+<a href="{% url 'diplomas:regions' %}"><img src="{% static 'diplomas/logo.png' %} "></a>
+
+<h1>Geocaching.SU "Regions" diplomas</h1>
+
+
+{% if status %}
+<p>User {{username}} can get <strong>{{ n_diplomas_to_get }}</strong> diplomas: <br>
+
+</p>
+<p>
+{% for region, data in result_dict %}
+    {{region}}: {{data.total_score}}/{{data.max_score}}<br>
+
+    &nbsp; &nbsp; - {{region}} ({{data.region_score}}/{{data.region_max_score}}):
+        {% for cache in data.caches %}
+            <a href="{{cache.get_link}}">{{cache.short_repr}}</a>,
+        {% endfor %}
+    <br>
+
+        {% for sosed, cache in data.neightbors %}
+            &nbsp; &nbsp; - {{sosed}}: <a href="{{cache.get_link}}">{{cache}}</a><br>
+        {% endfor %}
+
+
+{% endfor %}
+</p>
+
+
+{% else %}
+Enter your User ID to check Regions diploma status
+{% endif %}
+
+<form action="{% url 'diplomas:regions' %}" method="post">
+{% csrf_token %}
+    <label for="userq">User ID</label>
+    <input type="text" size="40" name="user" id="userq" value="{{user_id}}">
+<input type="submit" value="Submit" />
+</form>
