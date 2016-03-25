@@ -16,7 +16,7 @@ To get this diploma, you need to have score 33.
 </p>
 <p>
 {% for letter, value in azbuka_dict %}
-    &nbsp; &nbsp; &nbsp;  {{letter.upper}}: <a href="{{value.get_link}}">{{value}}</a> <br>
+    &nbsp; &nbsp; &nbsp;  {{letter.upper}}: <a href="{{value.get_link}}">{{value.get_repr_id_and_name}}</a> <br>
 {% endfor %}
 </p>
 

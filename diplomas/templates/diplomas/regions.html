@@ -4,7 +4,7 @@
 
 {% load staticfiles %}
 
-<a href="{% url 'diplomas:regions' %}"><img src="{% static 'diplomas/logo.png' %} "></a>
+<a href="{% url 'diplomas:index' %}"><img src="{% static 'diplomas/logo.png' %} "></a>
 
 <h1>Geocaching.SU "Regions" diplomas</h1>
 
@@ -26,7 +26,7 @@
         {% for sosed, cache in data.neightbors %}
             &nbsp; &nbsp; - {{sosed}}:
                 {% if cache %}
-                    <a href="{{cache.get_link}}">{{cache}}</a>
+                    <a href="{{cache.get_link}}">{{cache.get_repr_id_and_name}}</a>
                 {% else %}
                     <font color="red">No cache</font>
                 {% endif %}

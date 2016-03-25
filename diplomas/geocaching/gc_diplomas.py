@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 
 import diplomas.geocaching.api as gc_api
 from diplomas.geocaching.geoloto_stuff import get_geoloto_cards, check_geoloto_dp
@@ -85,6 +86,9 @@ def check_regions_for_user(user_id):
         if region not in regions_to_caches_table:
             regions_to_caches_table[region] = []
         regions_to_caches_table[region].append(cache)
+
+    for region in regions_to_caches_table:
+        regions_to_caches_table[region] = sorted(regions_to_caches_table[region], key= lambda x: datetime.datetime.strptime(x.find_date, "%d.%m.%Y"))
 
     number_of_caches_to_get_diploma = get_regions_diploma_criteria()
 
