@@ -91,16 +91,12 @@ def check_regions_for_user(user_id):
     result_table = {}
     for region in number_of_caches_to_get_diploma:
         if region in regions_to_caches_table:
+            # Firstly fill neightbors
             result_table[region] = {}
             result_table[region]['neightbors'] = []
-            found_in_the_region = len(regions_to_caches_table[region])
-            caches_here = min(number_of_caches_to_get_diploma[region], found_in_the_region)
-            caches_to_display = regions_to_caches_table[region][:caches_here]
-            #Remove caches
-            regions_to_caches_table[region] = regions_to_caches_table[region][caches_here:]
-
-            score = caches_here
-            max_score = number_of_caches_to_get_diploma[region] + len(get_region_neighbours(region))
+            result_table[region]['total_score'] = 0
+            result_table[region]['region_max_score'] = number_of_caches_to_get_diploma[region]
+            result_table[region]['max_score'] = number_of_caches_to_get_diploma[region] + len(get_region_neighbours(region))
 
             for neightbour in get_region_neighbours(region):
                 value_to_add = (neightbour, None)
@@ -108,15 +104,23 @@ def check_regions_for_user(user_id):
                     value_to_add = (neightbour, regions_to_caches_table[neightbour][0])
                     # Remove cache
                     del regions_to_caches_table[neightbour][0]
-                    score += 1
+                    result_table[region]['total_score'] += 1
                 result_table[region]['neightbors'].append(value_to_add)
 
+    for region in number_of_caches_to_get_diploma:
+        if region in regions_to_caches_table:
+            # ANd fill the main region after
+            found_in_the_region = len(regions_to_caches_table[region])
+            caches_here = min(number_of_caches_to_get_diploma[region], found_in_the_region)
+            caches_to_display = regions_to_caches_table[region][:caches_here]
+            #Remove caches
+            regions_to_caches_table[region] = regions_to_caches_table[region][caches_here:]
+
+            result_table[region]['total_score'] += caches_here
+
             result_table[region]['caches'] = caches_to_display
-            result_table[region]['total_score'] = score
             result_table[region]['region_score'] = caches_here
-            result_table[region]['region_max_score'] = number_of_caches_to_get_diploma[region]
-            result_table[region]['max_score'] = max_score
-            result_table[region]['can_get'] = max_score == score
+            result_table[region]['can_get'] = result_table[region]['max_score'] == result_table[region]['total_score']
 
     return result_table
 
