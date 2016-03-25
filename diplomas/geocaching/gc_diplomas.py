@@ -96,6 +96,8 @@ def check_regions_for_user(user_id):
             found_in_the_region = len(regions_to_caches_table[region])
             caches_here = min(number_of_caches_to_get_diploma[region], found_in_the_region)
             caches_to_display = regions_to_caches_table[region][:caches_here]
+            #Remove caches
+            regions_to_caches_table[region] = regions_to_caches_table[region][caches_here:]
 
             score = caches_here
             max_score = number_of_caches_to_get_diploma[region] + len(get_region_neighbours(region))
@@ -104,6 +106,8 @@ def check_regions_for_user(user_id):
                 value_to_add = (neightbour, None)
                 if neightbour in regions_to_caches_table and regions_to_caches_table[neightbour]:
                     value_to_add = (neightbour, regions_to_caches_table[neightbour][0])
+                    # Remove cache
+                    del regions_to_caches_table[neightbour][0]
                     score += 1
                 result_table[region]['neightbors'].append(value_to_add)
 
