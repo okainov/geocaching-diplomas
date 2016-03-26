@@ -1,18 +1,28 @@
 # -*- coding: utf-8 -*-
 import re
+from urllib.error import URLError
 
 import urllib.request
 import xml.etree.ElementTree
 from diplomas.geocaching.cache import Cache
 
+class MyConnectionError(Exception):
+    pass
 
 def get_page_by_url(url):
-    r = urllib.request.urlopen(url)
+    try:
+        r = urllib.request.urlopen(url)
+    except URLError as e:
+        raise MyConnectionError(e)
     bytes_str = r.read()
     return bytes_str.decode('cp1251')
 
 def get_page_by_url_without_encoding(url):
-    return urllib.request.urlopen(url).read()
+    try:
+        r = urllib.request.urlopen(url)
+    except URLError as e:
+        raise MyConnectionError(e)
+    return r.read()
 
 def get_cache_details(cache_id):
     page_src = get_page_by_url_without_encoding('http://www.geocaching.su/site/api.php?rtype=2&cid=%s&istr=ems' % cache_id)

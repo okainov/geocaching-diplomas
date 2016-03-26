@@ -8,6 +8,10 @@
 
 <h1>Geocaching.SU "Regions" diplomas</h1>
 
+{% if error %}
+<strong>{{error}}</strong><br><br>
+{% endif %}
+
 
 {% if status %}
 <p>User {{username}} can get <strong>{{ n_diplomas_to_get }}</strong>/79 diplomas: <br>

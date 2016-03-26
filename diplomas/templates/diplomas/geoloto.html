@@ -8,6 +8,9 @@
 
 <h1>Geocaching.SU "Geoloto" diploma</h1>
 
+{% if error %}
+<strong>{{error}}</strong><br><br>
+{% endif %}
 
 {% if status %}
 To get this diploma, you need to have score 60.

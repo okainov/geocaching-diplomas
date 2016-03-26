@@ -9,6 +9,10 @@
 <h1>Geocaching.SU "Azbuka" diploma</h1>
 
 
+{% if error %}
+<strong>{{error}}</strong><br><br>
+{% endif %}
+
 {% if status %}
 To get this diploma, you need to have score 33.
 <p>User {{username}} has score <strong>{{ score }}</strong>: <br>
